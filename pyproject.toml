@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bimmoe"
-version = "1.0.0"
+version = "1.0.1"
 description = "Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework"
 readme = "README.md"
 license = {text = "MIT"}
