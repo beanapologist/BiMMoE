@@ -1,7 +1,7 @@
 # This workflow will publish a Python package to PyPI when a release is created.
 # For more information, see: https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
-name: Publish Python Package
+name: Publish to PyPI
 
 on:
   release:
@@ -26,8 +26,8 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Files in current directory:"
           ls -la
-          echo "Files in .github/workflows:"
-          ls -la .github/workflows/
+          echo "pyproject.toml contents:"
+          cat pyproject.toml
 
       - name: Set up Python
         uses: actions/setup-python@v4
