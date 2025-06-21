@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "qdt-bimmoe"
 version = "1.0.0"
 description = "Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework"
 readme = "README.md"
-license = "MIT"
+license = {text = "MIT"}
 authors = [
     {name = "QDT Research Team", email = "research@qdt-framework.org"}
 ]
@@ -18,6 +18,7 @@ keywords = ["quantum", "multi-modal", "machine learning", "physics", "energy", "
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -31,8 +32,6 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     "numpy>=1.21.0",
-    "dataclasses>=0.6; python_version<\"3.7\"",
-    "typing-extensions>=4.0.0; python_version<\"3.8\"",
 ]
 
 [project.optional-dependencies]

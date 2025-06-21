@@ -4,7 +4,7 @@ Version: 1.0.0
 Summary: Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework
 Author-email: QDT Research Team <research@qdt-framework.org>
 Maintainer-email: QDT Research Team <research@qdt-framework.org>
-License-Expression: MIT
+License: MIT
 Project-URL: Homepage, https://github.com/beanapologist/BiMMoE
 Project-URL: Documentation, https://github.com/beanapologist/BiMMoE#readme
 Project-URL: Repository, https://github.com/beanapologist/BiMMoE
@@ -12,6 +12,7 @@ Project-URL: Bug-Tracker, https://github.com/beanapologist/BiMMoE/issues
 Keywords: quantum,multi-modal,machine learning,physics,energy,tokenization
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.8
@@ -25,8 +26,6 @@ Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy>=1.21.0
-Requires-Dist: dataclasses>=0.6; python_version < "3.7"
-Requires-Dist: typing-extensions>=4.0.0; python_version < "3.8"
 Provides-Extra: dev
 Requires-Dist: pytest>=6.0; extra == "dev"
 Requires-Dist: pytest-cov>=2.0; extra == "dev"
