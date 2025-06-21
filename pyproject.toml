@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "qdt-bimmoe"
+name = "bimmoe"
 version = "1.0.0"
 description = "Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework"
 readme = "README.md"
