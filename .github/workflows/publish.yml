@@ -1,82 +1,36 @@
-# This workflow will upload a Python Package to PyPI when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+# This workflow will publish a Python package to PyPI when a release is created.
+# For more information, see: https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Publish to PyPI
+name: Publish Python Package
 
 on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
-  publish:
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-latest
+
+    # This job needs an OIDC token to authenticate with PyPI.
+    # See https://docs.pypi.org/trusted-publishers/
+    permissions:
+      id-token: write
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: "3.11"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+      - name: Install build dependencies
+        run: python -m pip install --upgrade build
 
       - name: Build package
-        run: |
-          python -m build
+        run: python -m build
 
-      - name: Publish to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          twine upload dist/*
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            QDT BiMMoE Framework v${{ github.ref_name }}
-            
-            ## What's New
-            - Production-ready quantum tunneling and gravitational funneling
-            - Multi-modal tokenization with energy conservation
-            - 100% test coverage with comprehensive validation
-            - PyPI package for easy installation
-            
-            ## Installation
-            ```bash
-            pip install qdt-bimmoe
-            ```
-            
-            ## Quick Start
-            ```python
-            from qdt_bimmoe import tokenize, run_simulation
-            
-            # Process multi-modal energy data
-            solar_data = [5.2, 6.1, 7.8, 8.9, 9.2, 8.7]
-            wind_data = [8.3, 7.9, 9.2, 8.1, 7.5, 8.8]
-            consumption = [20.1, 19.8, 21.3, 22.1, 21.9, 20.8]
-            
-            modalities = [solar_data, wind_data, consumption]
-            result = tokenize(modalities, t=0.5)
-            
-            print(f"Integrated Token: {result['token']:.6f}")
-            print(f"Energy Conservation: {result['energy_error']:.6f}")
-            ```
-          draft: false
-          prerelease: false 
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1 
