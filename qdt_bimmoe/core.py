@@ -1,4 +1,4 @@
-# qdt_bimmoe.py - Production-Ready QDT BiMMoE Framework
+# qdt_bimmoe/core.py - Production-Ready QDT BiMMoE Framework
 """
 Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework
 
@@ -13,8 +13,15 @@ Status: Production Ready (100% Test Coverage)
 import math
 import random
 from typing import Dict, List, Tuple, Optional
-import numpy as np
 from dataclasses import dataclass
+
+# Try to import numpy for vectorized operations
+try:
+    import numpy as np
+    HAS_NUMPY = True
+except ImportError:
+    HAS_NUMPY = False
+    np = None
 
 
 @dataclass
@@ -392,76 +399,79 @@ def run_simulation(data: Optional[Dict[str, List[float]]] = None,
     return results
 
 
-# Performance optimization using numpy (optional dependency)
-try:
-    import numpy as np
+def quantum_tunnel_vectorized(t_array):
+    """
+    Vectorized quantum tunneling for improved performance on large datasets.
     
-    def quantum_tunnel_vectorized(t_array: np.ndarray) -> Dict[str, np.ndarray]:
-        """
-        Vectorized quantum tunneling for improved performance on large datasets.
+    Args:
+        t_array: Array of time values (numpy array if available)
         
-        Args:
-            t_array (np.ndarray): Array of time values
-            
-        Returns:
-            Dict[str, np.ndarray]: Vectorized results
-        """
-        tau = np.zeros_like(t_array, dtype=float)
-        normalization = np.zeros_like(t_array, dtype=float)
+    Returns:
+        Dict containing vectorized results
         
-        # Vectorized prime oscillations
-        for i, p in enumerate(QDT.primes[:3]):
-            weight = 1.0 / math.sqrt(i + 1)
-            contributions = QDT.A * weight * np.power(p, -t_array / QDT.T_0) * \
-                          np.cos(2 * np.pi * t_array * (i + 1))
-            tau += contributions
-            normalization += np.abs(contributions)
-        
-        # Vectorized normalization
-        valid_norm = normalization > 1e-10
-        tau[valid_norm] = tau[valid_norm] / (normalization[valid_norm] + 0.1)
-        tau[~valid_norm] = 0.0
-        
-        # Vectorized phase modulation
-        capped_t = np.minimum(t_array, 50.0)
-        decay_factors = np.exp(-QDT.GAMMA * capped_t)
-        phase_contributions = QDT.B * np.sin(t_array * np.pi) * decay_factors
-        tau += phase_contributions
-        
-        # Vectorized tunneling probability
-        P_tunnel = np.where(
-            t_array <= 1.0,
-            0.595 + 0.003 * t_array + 0.001 * np.sin(2 * np.pi * t_array),
-            0.599 - 0.001 * np.exp(-0.1 * t_array)
-        )
-        
-        # Vectorized distance calculation
-        d = np.where(
-            np.abs(t_array) < 1e-10, 0.25,
+    Note:
+        This function requires numpy to be installed for vectorized operations.
+        If numpy is not available, it will raise an ImportError.
+    """
+    if not HAS_NUMPY:
+        raise ImportError("numpy is required for vectorized operations. Install with: pip install numpy")
+    
+    if not isinstance(t_array, np.ndarray):
+        t_array = np.array(t_array)
+    
+    tau = np.zeros_like(t_array, dtype=float)
+    normalization = np.zeros_like(t_array, dtype=float)
+    
+    # Vectorized prime oscillations
+    for i, p in enumerate(QDT.primes[:3]):
+        weight = 1.0 / math.sqrt(i + 1)
+        contributions = QDT.A * weight * np.power(p, -t_array / QDT.T_0) * \
+                      np.cos(2 * np.pi * t_array * (i + 1))
+        tau += contributions
+        normalization += np.abs(contributions)
+    
+    # Vectorized normalization
+    valid_norm = normalization > 1e-10
+    tau[valid_norm] = tau[valid_norm] / (normalization[valid_norm] + 0.1)
+    tau[~valid_norm] = 0.0
+    
+    # Vectorized phase modulation
+    capped_t = np.minimum(t_array, 50.0)
+    decay_factors = np.exp(-QDT.GAMMA * capped_t)
+    phase_contributions = QDT.B * np.sin(t_array * np.pi) * decay_factors
+    tau += phase_contributions
+    
+    # Vectorized tunneling probability
+    P_tunnel = np.where(
+        t_array <= 1.0,
+        0.595 + 0.003 * t_array + 0.001 * np.sin(2 * np.pi * t_array),
+        0.599 - 0.001 * np.exp(-0.1 * t_array)
+    )
+    
+    # Vectorized distance calculation
+    d = np.where(
+        np.abs(t_array) < 1e-10, 0.25,
+        np.where(
+            np.abs(t_array - 1.0) < 1e-10, 0.243,
             np.where(
-                np.abs(t_array - 1.0) < 1e-10, 0.243,
-                np.where(
-                    t_array >= 10.0, 0.0002,
-                    0.25 * np.exp(-0.2 * t_array) + 0.0002
-                )
+                t_array >= 10.0, 0.0002,
+                0.25 * np.exp(-0.2 * t_array) + 0.0002
             )
         )
-        
-        corrected_tau = d * np.sign(tau)
-        
-        return {
-            "tau": corrected_tau,
-            "P_tunnel": P_tunnel,
-            "d": d,
-            "normalization": normalization
-        }
-        
-except ImportError:
-    # Numpy not available, use standard implementation
-    pass
+    )
+    
+    corrected_tau = d * np.sign(tau)
+    
+    return {
+        "tau": corrected_tau,
+        "P_tunnel": P_tunnel,
+        "d": d,
+        "normalization": normalization
+    }
 
 
-if __name__ == "__main__":
+def main():
+    """Main entry point for command-line usage."""
     # Example usage and basic validation
     print("QDT BiMMoE Framework - Production Version")
     print("=" * 45)
@@ -484,3 +494,7 @@ if __name__ == "__main__":
     print(f"Average Tunnel Strength: {avg_tunnel_strength:.4f}")
     print(f"Average Funnel Strength: {avg_funnel_strength:.4f}")
     print(f"Framework Status: {'OPTIMAL' if avg_energy_error < 0.1 else 'ACCEPTABLE'}")
+
+
+if __name__ == "__main__":
+    main() 
