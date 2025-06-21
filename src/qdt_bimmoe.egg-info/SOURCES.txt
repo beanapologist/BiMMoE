@@ -1,7 +1,6 @@
 LICENSE
 README.md
 pyproject.toml
-setup.py
 src/qdt_bimmoe/__init__.py
 src/qdt_bimmoe/core.py
 src/qdt_bimmoe.egg-info/PKG-INFO

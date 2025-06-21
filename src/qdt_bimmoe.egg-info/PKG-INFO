@@ -2,8 +2,6 @@ Metadata-Version: 2.4
 Name: qdt-bimmoe
 Version: 1.0.0
 Summary: Quantum Duality Theory (QDT) Bidirectional Multi-Modal Multi-Expert Framework
-Home-page: https://github.com/beanapologist/BiMMoE
-Author: QDT Research Team
 Author-email: QDT Research Team <research@qdt-framework.org>
 Maintainer-email: QDT Research Team <research@qdt-framework.org>
 License-Expression: MIT
@@ -38,10 +36,7 @@ Requires-Dist: mypy>=0.800; extra == "dev"
 Provides-Extra: docs
 Requires-Dist: sphinx>=4.0; extra == "docs"
 Requires-Dist: sphinx-rtd-theme>=1.0; extra == "docs"
-Dynamic: author
-Dynamic: home-page
 Dynamic: license-file
-Dynamic: requires-python
 
 # QDT BiMMoE Framework
 
